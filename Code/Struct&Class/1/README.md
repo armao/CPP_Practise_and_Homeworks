@@ -15,8 +15,8 @@ int main(int argc, const char * argv[]) {
   twbank::account acc2(500.50f);  // 500.50
   twbank::account acc3 = 500.0f;  // compile error
   
-  cc1.deposit(400);    //+400 存錢函數，呼叫時只能輸入整數
-  cc1.withdraw(500);   //-500 領錢函數，呼叫時只能輸入整數
+  acc1.deposit(400);    //+400 存錢函數，呼叫時只能輸入整數
+  acc1.withdraw(500);   //-500 領錢函數，呼叫時只能輸入整數
   
   std::cout << std::boolalpha << acc.withdraw(500)<<std::endl;  //不夠錢的話 print false
   
