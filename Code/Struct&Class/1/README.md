@@ -1,8 +1,8 @@
 練習＆學習關於物件的宣告、特性與語法同時並分類整理代碼
 
-題目如下：
+題目與預寫內容如下：
 
-創立一個Class或者Struct，名為account，並讓預寫內容可以如要求運作。
+創立一個Class或者Struct，名為account，並讓下列預寫內容可以如要求運作。
 
 ```
 #include <iostream>
