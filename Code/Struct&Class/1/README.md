@@ -20,7 +20,7 @@ int main(int argc, const char * argv[]) {
   
   std::cout << std::boolalpha << acc.withdraw(500)<<std::endl;  //不夠錢的話 print false
   
-  std::cout << acc1.balance() << std::endl;  //print結果，格式須為 900.50 或 50.55，依此類推
+  std::cout << acc1.balance() << std::endl;  //print結果 ex 900.5
   
   return 0;
 }
