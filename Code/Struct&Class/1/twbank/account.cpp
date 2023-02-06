@@ -60,6 +60,5 @@ bool twbank::account::withdraw(int withdraw)
     //餘額
 float twbank::account::balance() const
 {
-    std::cout  <<  std::fixed <<  std::setprecision(2);
     return m_money;
 }
