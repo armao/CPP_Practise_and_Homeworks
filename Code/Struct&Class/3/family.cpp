@@ -34,7 +34,7 @@ human& family::longest_name_member() const
 	return m_member.at(longer_one);
 }
 
-bool family::has_member_with_name(std::string a_string)
+bool family::has_member_with_name(std::string a_string) const
 {
 	for (size_t i = 0; i < m_member.size(); ++i)
 	{
