@@ -10,7 +10,7 @@ public:
 
 	void add_member(human a_human);
 
-	human& longest_name_member();
+	human& longest_name_member() const;
 
 	bool has_member_with_name(std::string a_string);
 
