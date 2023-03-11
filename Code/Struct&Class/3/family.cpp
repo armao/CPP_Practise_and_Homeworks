@@ -17,7 +17,7 @@ family::family(human a_human)
 
 void family::add_member(human a_human)
 {
-	m_member.push_back(a_human);
+	m_member.push_back(std::move(a_human));
 }
 
 const human& family::longest_name_member() const
