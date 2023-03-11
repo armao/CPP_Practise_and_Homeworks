@@ -20,7 +20,7 @@ void family::add_member(human a_human)
 	m_member.push_back(a_human);
 }
 
-human& family::longest_name_member() const
+const human& family::longest_name_member() const
 {
 	size_t longer_one = 0;
 	for (size_t i = 1; i < m_member.size(); ++i)
