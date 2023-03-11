@@ -12,7 +12,7 @@ public:
 
 	human& longest_name_member() const;
 
-	bool has_member_with_name(std::string a_string);
+	bool has_member_with_name(const std::string& a_string) const;
 
 	void print();
 
