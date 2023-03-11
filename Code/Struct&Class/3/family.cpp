@@ -3,6 +3,7 @@
 #include "family.h"
 #include "human.h"
 #include <utility>
+#include <iterator>
 
 using namespace std;
 
@@ -22,16 +23,17 @@ void family::add_member(human a_human)
 
 const human& family::longest_name_member() const
 {
-	size_t longer_one = 0;
-	for (size_t i = 1; i < m_member.size(); ++i)
+	auto longer_one = m_member.cbegin();
+	for (auto ibegin = longer_one +1, iend = m_member.cend();
+		ibegin != iend; ++ibegin)
 	{
-		if(m_member.at(longer_one).name_length() < m_member.at(i).name_length())
+		if (ibegin->name().length() > longer_one->name().length())
 		{
-			longer_one = i;
+			longer_one = ibegin;
 		}
 	}
 
-	return m_member.at(longer_one);
+	return *longer_one;
 }
 
 bool family::has_member_with_name(const std::string& a_string) const
