@@ -109,6 +109,7 @@ triangle::triangle(float sideOne, float sideTwo, float sideThree)
 				<< " , " << sideTwo
 				<< " , " << sideThree
 				<< " ) " << "的線段無法成立三角形" << std::endl;
+			throw std::invalid_argument("Please retry again.");
 		}
 }
 
