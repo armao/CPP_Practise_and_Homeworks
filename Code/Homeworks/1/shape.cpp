@@ -104,11 +104,13 @@ triangle::triangle(float sideOne, float sideTwo, float sideThree)
 			sideTwo + sideThree <= sideOne
 			)
 		{
+			std::cout << std::endl;
 			std::cout << "三個邊為"
 				<< " ( " << sideOne
 				<< " , " << sideTwo
 				<< " , " << sideThree
 				<< " ) " << "的線段無法成立三角形" << std::endl;
+			std::cout << std::endl;
 			throw std::invalid_argument("Please retry again.");
 		}
 }
