@@ -23,7 +23,8 @@ int main(int argc, char* argv[])
             break;
         }
         
-        cin_shape(cin_str);
+        //cin_shape_switcherV1(cin_str);
+        cin_shape_switcherV2(cin_str);
         
     } while (true);
 
