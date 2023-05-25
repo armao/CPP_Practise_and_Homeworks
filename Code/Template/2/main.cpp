@@ -16,10 +16,11 @@ public:
         using UnionMetric = std::ratio <
             ((Metric::num / Metric::den) <= (OtherMetric::num / OtherMetric::den)) ? Metric::num : OtherMetric::num,
             ((Metric::num / Metric::den) <= (OtherMetric::num / OtherMetric::den)) ? Metric::den : OtherMetric::den>;
-        double my_value = m_value * (static_cast<double>(Metric::num) / Metric::den);
-        double other_value = other.m_value * (static_cast<double>(OtherMetric::num) / OtherMetric::den);
+        double my_value = m_value * Metric::num / Metric::den;
+        double other_value = other.m_value * OtherMetric::num / OtherMetric::den;
         double result_value = my_value + other_value;
-        return metric_length<UnionMetric>(result_value * (static_cast<double>(UnionMetric::den) / UnionMetric::num));
+
+        return metric_length<UnionMetric>(result_value *UnionMetric::den / UnionMetric::num);
     }
 
     template<typename OtherMetric>
@@ -28,14 +29,16 @@ public:
         using UnionMetric = std::ratio <
             ((Metric::num / Metric::den) <= (OtherMetric::num / OtherMetric::den)) ? Metric::num : OtherMetric::num,
             ((Metric::num / Metric::den) <= (OtherMetric::num / OtherMetric::den)) ? Metric::den : OtherMetric::den>;
-        double my_value = m_value * (static_cast<double>(Metric::num) / Metric::den);
-        double other_value = other.m_value * (static_cast<double>(OtherMetric::num) / OtherMetric::den);
+        double my_value = m_value * Metric::num / Metric::den;
+        double other_value = other.m_value * OtherMetric::num / OtherMetric::den;
         double result_value = my_value - other_value;
-        return metric_length<UnionMetric>(result_value * (static_cast<double>(UnionMetric::den) / UnionMetric::num));
+
+        return metric_length<UnionMetric>(result_value * UnionMetric::den / UnionMetric::num);
     }
 
 public:
     double m_value;
+
 };
 
 template <typename Metric>
@@ -55,8 +58,8 @@ int main(int argc, char* argv[])
     centimeters cm{ 109 };
     kilometers km{ 12 };
 
-
     std::cout << m << std::endl;
+
     std::cout << km + m << std::endl;
     std::cout << cm + m << std::endl;
 
