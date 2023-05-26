@@ -5,7 +5,7 @@ template <typename Metric>
 struct metric_length
 {
 public:
-    metric_length(double value)
+    metric_length(int value)
         : m_value(value)
     {
     }
@@ -13,31 +13,51 @@ public:
     template<typename OtherMetric>
     auto operator+(const metric_length<OtherMetric>& other) const
     {
-        using UnionMetric = std::ratio <
-            ((Metric::num / Metric::den) <= (OtherMetric::num / OtherMetric::den)) ? Metric::num : OtherMetric::num,
-            ((Metric::num / Metric::den) <= (OtherMetric::num / OtherMetric::den)) ? Metric::den : OtherMetric::den>;
-        double my_value = m_value * Metric::num / Metric::den;
-        double other_value = other.m_value * OtherMetric::num / OtherMetric::den;
-        double result_value = my_value + other_value;
+        using UnionMetric = std::ratio_add<Metric, OtherMetric>;
+        int my_value = m_value;
+        int other_value = other.m_value;
 
-        return metric_length<UnionMetric>(result_value *UnionMetric::den / UnionMetric::num);
+        if ((Metric::num - Metric::den) > (OtherMetric::num - OtherMetric::den))
+        {
+            using UnionMetric = std::ratio<OtherMetric::num, OtherMetric::den>;
+            my_value *= Metric::num * OtherMetric::den;
+        }
+        if ((Metric::num - Metric::den) < (OtherMetric::num - OtherMetric::den))
+        {
+            using UnionMetric = std::ratio<Metric::num, Metric::den>;
+            other_value *= OtherMetric::num * Metric::den;
+        }
+
+        int result_value = my_value + other_value;
+
+        return metric_length<UnionMetric>(result_value);
     }
 
     template<typename OtherMetric>
     auto operator-(const metric_length<OtherMetric>& other) const
     {
-        using UnionMetric = std::ratio <
-            ((Metric::num / Metric::den) <= (OtherMetric::num / OtherMetric::den)) ? Metric::num : OtherMetric::num,
-            ((Metric::num / Metric::den) <= (OtherMetric::num / OtherMetric::den)) ? Metric::den : OtherMetric::den>;
-        double my_value = m_value * Metric::num / Metric::den;
-        double other_value = other.m_value * OtherMetric::num / OtherMetric::den;
-        double result_value = my_value - other_value;
+        using UnionMetric = std::ratio_add<Metric, OtherMetric>;
+        int my_value = m_value;
+        int other_value = other.m_value;
 
-        return metric_length<UnionMetric>(result_value * UnionMetric::den / UnionMetric::num);
+        if ((Metric::num - Metric::den) > (OtherMetric::num - OtherMetric::den))
+        {
+            using UnionMetric = std::ratio<OtherMetric::num, OtherMetric::den>;
+            my_value *= Metric::num * OtherMetric::den;
+        }
+        if ((Metric::num - Metric::den) < (OtherMetric::num - OtherMetric::den))
+        {
+            using UnionMetric = std::ratio<Metric::num, Metric::den>;
+            other_value *= OtherMetric::num * Metric::den;
+        }
+
+        int result_value = my_value - other_value;
+
+        return metric_length<UnionMetric>(result_value);
     }
 
 public:
-    double m_value;
+    int m_value;
 
 };
 
