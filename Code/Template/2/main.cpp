@@ -1,5 +1,6 @@
 #include <iostream>
 #include <ratio>
+#include <type_traits>
 
 template <typename Metric>
 struct metric_length
@@ -13,19 +14,18 @@ public:
     template<typename OtherMetric>
     auto operator+(const metric_length<OtherMetric>& other) const
     {
-        using UnionMetric = std::ratio_add<Metric, OtherMetric>;
         int my_value = m_value;
         int other_value = other.m_value;
 
+        using UnionMetric = std::conditional_t<(Metric::num - Metric::den <= OtherMetric::num - OtherMetric::den), Metric, OtherMetric>;
+
         if ((Metric::num - Metric::den) > (OtherMetric::num - OtherMetric::den))
         {
-            using UnionMetric = std::ratio<OtherMetric::num, OtherMetric::den>;
-            my_value *= Metric::num * OtherMetric::den;
+            my_value *= Metric::num * (OtherMetric::den / Metric::den);
         }
-        if ((Metric::num - Metric::den) < (OtherMetric::num - OtherMetric::den))
+        else if ((Metric::num - Metric::den) < (OtherMetric::num - OtherMetric::den))
         {
-            using UnionMetric = std::ratio<Metric::num, Metric::den>;
-            other_value *= OtherMetric::num * Metric::den;
+            other_value *= OtherMetric::num * (Metric::den / OtherMetric::den);
         }
 
         int result_value = my_value + other_value;
@@ -36,18 +36,17 @@ public:
     template<typename OtherMetric>
     auto operator-(const metric_length<OtherMetric>& other) const
     {
-        using UnionMetric = std::ratio_add<Metric, OtherMetric>;
         int my_value = m_value;
         int other_value = other.m_value;
 
+        using UnionMetric = std::conditional_t<(Metric::num - Metric::den <= OtherMetric::num - OtherMetric::den), Metric, OtherMetric>;
+
         if ((Metric::num - Metric::den) > (OtherMetric::num - OtherMetric::den))
         {
-            using UnionMetric = std::ratio<OtherMetric::num, OtherMetric::den>;
             my_value *= Metric::num * OtherMetric::den;
         }
-        if ((Metric::num - Metric::den) < (OtherMetric::num - OtherMetric::den))
+        else if ((Metric::num - Metric::den) < (OtherMetric::num - OtherMetric::den))
         {
-            using UnionMetric = std::ratio<Metric::num, Metric::den>;
             other_value *= OtherMetric::num * Metric::den;
         }
 
@@ -58,7 +57,6 @@ public:
 
 public:
     int m_value;
-
 };
 
 template <typename Metric>
@@ -73,10 +71,12 @@ int main(int argc, char* argv[])
     using meters = metric_length<std::ratio<1, 1>>;
     using centimeters = metric_length<std::ratio<1, 100>>;
     using kilometers = metric_length<std::ratio<1000, 1>>;
+    using millimetres = metric_length<std::ratio<1, 1000>>;
 
-    meters m{ 16 };
-    centimeters cm{ 109 };
-    kilometers km{ 12 };
+    meters m{ 1 };
+    centimeters cm{ 50 };
+    kilometers km{ 5 };
+    millimetres mm{ 9 };
 
     std::cout << m << std::endl;
 
@@ -85,6 +85,10 @@ int main(int argc, char* argv[])
 
     std::cout << km - m << std::endl;
     std::cout << m - cm << std::endl;
+
+    std::cout << mm + cm  << std::endl;
+    std::cout << m - mm + mm - mm + m << std::endl;
+    std::cout << cm + m + mm + km << std::endl;
 
     return 0;
 }
